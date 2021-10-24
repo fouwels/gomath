@@ -17,7 +17,68 @@ func main() {
 	os.Exit(1)
 }
 func run() error {
-	return mandlebrot()
+	return bifurcation()
+}
+
+func bifurcation() error {
+
+	points := []plotter.XY{}
+
+	res := 100
+
+	f := func(x complex128, r complex128) complex128 {
+		return r * x * (1 - x)
+	}
+
+	for ri := 0; ri <= 4*res; ri++ {
+
+		r := complex(float64(ri)/float64(res), 0)
+		x := complex(0.1, 0)
+
+		for n := 0; n < 1000; n++ {
+			x = f(x, r)
+
+			if n > 900 {
+				points = append(points, plotter.XY{X: real(r), Y: real(x)})
+			}
+		}
+	}
+
+	return p(points, "bifurcation", "r", "x")
+}
+
+func julia() error {
+	points := []plotter.XY{}
+
+	f := func(x complex128, c complex128) complex128 {
+		return x*x + c
+	}
+
+	cx := float64(0.8)
+	ci := float64(0.156)
+	c := complex(cx, ci)
+
+	res := 100
+
+	for x := -1 * res; x <= 1*res; x++ {
+		for xi := -1 * res; xi <= 1*res; xi++ {
+
+			x := complex(float64(x)/float64(res), float64(xi)/float64(res))
+			y := x
+
+			for n := 0; n < 8; n++ {
+				y = f(y, c)
+
+				if cmplx.Abs(y) > 10 {
+					points = append(points, plotter.XY{X: real(x), Y: imag(x)})
+					break
+				}
+
+			}
+		}
+	}
+
+	return p(points, "julia", "x", "i")
 }
 
 func mandlebrot() error {
@@ -49,33 +110,6 @@ func mandlebrot() error {
 	}
 
 	return p(points, "mandlebrot", "x", "i")
-}
-
-func bifurcation() error {
-
-	points := []plotter.XY{}
-
-	res := 100
-
-	f := func(x complex128, r complex128) complex128 {
-		return r * x * (1 - x)
-	}
-
-	for ri := 0; ri <= 4*res; ri++ {
-
-		r := complex(float64(ri)/float64(res), 0)
-		x := complex(0.1, 0)
-
-		for n := 0; n < 1000; n++ {
-			x = f(x, r)
-
-			if n > 900 {
-				points = append(points, plotter.XY{X: real(r), Y: real(x)})
-			}
-		}
-	}
-
-	return p(points, "bifurcation", "r", "x")
 }
 
 func p(points []plotter.XY, name string, x string, y string) error {
