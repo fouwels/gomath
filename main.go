@@ -15,12 +15,15 @@ func main() {
 	log.Printf("Exit with err: %v", err)
 	os.Exit(1)
 }
-
 func run() error {
+	return bifurcation()
+}
+
+func bifurcation() error {
 
 	points := []plotter.XY{}
 
-	res := 1000
+	res := 100
 
 	f := func(x complex128, r complex128) complex128 {
 		return r * x * (1 - x)
@@ -33,9 +36,11 @@ func run() error {
 
 		for n := 0; n < 1000; n++ {
 			x = f(x, r)
-		}
 
-		points = append(points, plotter.XY{X: real(r), Y: real(x)})
+			if n > 900 {
+				points = append(points, plotter.XY{X: real(r), Y: real(x)})
+			}
+		}
 	}
 
 	return p(points, "bifurcation", "r", "x")
