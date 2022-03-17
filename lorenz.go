@@ -1,15 +1,11 @@
 package main
 
-import (
-	"gonum.org/v1/plot/plotter"
-)
-
 func lorenz() error {
 
 	const time = 100
 	const step = 0.01
 
-	points := []plotter.XYZ{}
+	points := []XYZ{}
 
 	x := float64(0.1)
 	y := float64(0)
@@ -18,7 +14,7 @@ func lorenz() error {
 	for t := 0 * step; t <= time; t += step {
 		x, y, z = l(step, x, y, z)
 
-		points = append(points, plotter.XYZ{
+		points = append(points, XYZ{
 			X: x,
 			Y: y,
 			Z: z,

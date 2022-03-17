@@ -1,5 +1,4 @@
-clean:
-	rm -rf *.png
+all: bifurcation julia mandlebrot lorenz
 
 bifurcation:
 	go test -v -run TestBifurcation
@@ -12,3 +11,7 @@ mandlebrot:
 	
 lorenz:
 	go test -v -run TestLorenz
+
+clean:
+	rm -rf *.png
+ 

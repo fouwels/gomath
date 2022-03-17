@@ -2,12 +2,10 @@ package main
 
 import (
 	"math/cmplx"
-
-	"gonum.org/v1/plot/plotter"
 )
 
 func julia() error {
-	points := []plotter.XY{}
+	points := []XY{}
 
 	f := func(x complex128, c complex128) complex128 {
 		return x*x + c
@@ -29,7 +27,7 @@ func julia() error {
 				y = f(y, c)
 
 				if cmplx.Abs(y) > 10 {
-					points = append(points, plotter.XY{X: real(x), Y: imag(x)})
+					points = append(points, XY{X: real(x), Y: imag(x)})
 					break
 				}
 

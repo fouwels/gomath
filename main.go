@@ -2,14 +2,10 @@ package main
 
 import (
 	"fmt"
-	"image/color"
 	"log"
 	"os"
 
 	"github.com/Arafatk/glot"
-	"gonum.org/v1/plot"
-	"gonum.org/v1/plot/plotter"
-	"gonum.org/v1/plot/vg"
 )
 
 func main() {
@@ -21,32 +17,52 @@ func run() error {
 	return bifurcation()
 }
 
-func p(points []plotter.XY, name string, x string, y string) error {
-	p := plot.New()
+type XY struct{ X, Y float64 }
+type XYZ struct{ X, Y, Z float64 }
 
-	p.Title.Text = name
-	p.X.Label.Text = x
-	p.Y.Label.Text = y
+func p(points []XY, name string, x string, y string) error {
+	ps := make([][]float64, 3)
 
-	s, err := plotter.NewScatter(plotter.XYs(points))
-	if err != nil {
-		return err
+	for _, v := range points {
+		ps[0] = append(ps[0], v.X)
+		ps[1] = append(ps[1], v.Y)
+
+		//log.Printf("%v %v %v", v.X, v.Y, v.Z)
 	}
-	s.GlyphStyle.Color = color.RGBA{R: 255, B: 128, A: 255}
-	s.Radius = 1
 
-	p.Add(s)
-
-	// Save the plot to a PNG file.
-	err = p.Save(20*vg.Centimeter, 20*vg.Centimeter, "points-"+name+".png")
+	plot, err := glot.NewPlot(2, false, false)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to create plot: %v", err)
+	}
+
+	err = plot.SetTitle(name)
+	if err != nil {
+		return fmt.Errorf("failed to set title: %v", err)
+	}
+	err = plot.SetXLabel(x)
+	if err != nil {
+		return fmt.Errorf("failed to set x label: %v", err)
+	}
+	err = plot.SetYLabel(y)
+	if err != nil {
+		return fmt.Errorf("failed to set y label: %v", err)
+	}
+
+	err = plot.AddPointGroup("points", "dots", [][]float64{
+		ps[0], ps[1],
+	})
+	if err != nil {
+		return fmt.Errorf("failed to add point group: %v", err)
+	}
+	err = plot.SavePlot("points-" + name + ".png")
+	if err != nil {
+		return fmt.Errorf("failed to save plot: %v", err)
 	}
 
 	return nil
 }
 
-func p3(points []plotter.XYZ, name string, x string, y string, z string) error {
+func p3(points []XYZ, name string, x string, y string, z string) error {
 
 	ps := make([][]float64, 3)
 
@@ -59,7 +75,6 @@ func p3(points []plotter.XYZ, name string, x string, y string, z string) error {
 	}
 
 	//plot 3D
-
 	plot, err := glot.NewPlot(3, false, false)
 	if err != nil {
 		return fmt.Errorf("failed to create plot: %v", err)
@@ -82,19 +97,19 @@ func p3(points []plotter.XYZ, name string, x string, y string, z string) error {
 		return fmt.Errorf("failed to set z label: %v", err)
 	}
 
-	//plot 3D
 	err = plot.AddPointGroup("points", "dots", [][]float64{
 		ps[0], ps[1], ps[2],
 	})
 	if err != nil {
 		return fmt.Errorf("failed to add point group: %v", err)
 	}
+
 	err = plot.SavePlot("points-" + name + ".png")
 	if err != nil {
 		return fmt.Errorf("failed to save plot: %v", err)
 	}
 
-	//plot 2D
+	//plot 2D traces
 	plot, err = glot.NewPlot(2, false, false)
 	if err != nil {
 		return fmt.Errorf("failed to create plot: %v", err)

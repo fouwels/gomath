@@ -1,10 +1,8 @@
 package main
 
-import "gonum.org/v1/plot/plotter"
-
 func bifurcation() error {
 
-	points := []plotter.XY{}
+	points := []XY{}
 
 	res := 100
 
@@ -21,7 +19,7 @@ func bifurcation() error {
 			x = f(x, r)
 
 			if n > 900 {
-				points = append(points, plotter.XY{X: real(r), Y: real(x)})
+				points = append(points, XY{X: real(r), Y: real(x)})
 			}
 		}
 	}

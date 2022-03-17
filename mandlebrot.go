@@ -2,13 +2,11 @@ package main
 
 import (
 	"math/cmplx"
-
-	"gonum.org/v1/plot/plotter"
 )
 
 func mandlebrot() error {
 
-	points := []plotter.XY{}
+	points := []XY{}
 
 	f := func(x complex128, c complex128) complex128 {
 		return x*x + c
@@ -27,7 +25,7 @@ func mandlebrot() error {
 			}
 
 			if cmplx.IsInf(x) || cmplx.IsNaN(x) {
-				points = append(points, plotter.XY{X: real(c), Y: imag(c)})
+				points = append(points, XY{X: real(c), Y: imag(c)})
 				continue
 			}
 
