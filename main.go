@@ -55,7 +55,7 @@ func p3(points []plotter.XYZ, name string, x string, y string, z string) error {
 		ps[1] = append(ps[1], v.Y)
 		ps[2] = append(ps[2], v.Z)
 
-		log.Printf("%v %v %v", v.X, v.Y, v.Z)
+		//log.Printf("%v %v %v", v.X, v.Y, v.Z)
 	}
 
 	//plot 3D
@@ -65,16 +65,10 @@ func p3(points []plotter.XYZ, name string, x string, y string, z string) error {
 		return fmt.Errorf("failed to create plot: %v", err)
 	}
 
-	err = plot.AddPointGroup("points", "dots", ps)
-	if err != nil {
-		return fmt.Errorf("failed to add point group: %v", err)
-	}
-
 	err = plot.SetTitle(name)
 	if err != nil {
 		return fmt.Errorf("failed to set title: %v", err)
 	}
-
 	err = plot.SetXLabel(x)
 	if err != nil {
 		return fmt.Errorf("failed to set x label: %v", err)
@@ -88,6 +82,13 @@ func p3(points []plotter.XYZ, name string, x string, y string, z string) error {
 		return fmt.Errorf("failed to set z label: %v", err)
 	}
 
+	//plot 3D
+	err = plot.AddPointGroup("points", "dots", [][]float64{
+		ps[0], ps[1], ps[2],
+	})
+	if err != nil {
+		return fmt.Errorf("failed to add point group: %v", err)
+	}
 	err = plot.SavePlot("points-" + name + ".png")
 	if err != nil {
 		return fmt.Errorf("failed to save plot: %v", err)

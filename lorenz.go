@@ -1,14 +1,12 @@
 package main
 
 import (
-	"math"
-
 	"gonum.org/v1/plot/plotter"
 )
 
 func lorenz() error {
 
-	const time = 1000
+	const time = 100
 	const step = 0.01
 
 	points := []plotter.XYZ{}
@@ -20,14 +18,12 @@ func lorenz() error {
 	for t := 0 * step; t <= time; t += step {
 		x, y, z = l(step, x, y, z)
 
-		if !math.IsInf(x, 0) && !math.IsNaN(x) && !math.IsInf(y, 0) && !math.IsNaN(y) && !math.IsInf(z, 0) && !math.IsNaN(z) {
-			points = append(points, plotter.XYZ{
-				X: x,
-				Y: y,
-				Z: z,
-			})
-			continue
-		}
+		points = append(points, plotter.XYZ{
+			X: x,
+			Y: y,
+			Z: z,
+		})
+
 	}
 
 	return p3(points, "lorenz", "x", "y", "z")
@@ -36,7 +32,7 @@ func lorenz() error {
 func l(t, x, y, z float64) (float64, float64, float64) {
 
 	const q = 10.0
-	const p = 28.0
+	const p = 30.0
 	const B = 8.0 / 3.0
 
 	dx := t * (q * (y - x))
