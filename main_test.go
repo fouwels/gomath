@@ -20,7 +20,7 @@ func TestMandlebrot(t *testing.T) {
 	log.Printf("%v", err)
 }
 
-func TestLorenz(t *testing.T) {
-	err := lorenz()
-	log.Printf("%v", err)
-}
+// func TestLorenz(t *testing.T) {
+// 	err := lorenz()
+// 	log.Printf("%v", err)
+// }
