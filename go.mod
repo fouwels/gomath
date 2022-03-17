@@ -2,7 +2,10 @@ module plot
 
 go 1.17
 
-require gonum.org/v1/plot v0.10.0
+require (
+	github.com/Arafatk/glot v0.0.0-20180312013246-79d5219000f0
+	gonum.org/v1/plot v0.10.0
+)
 
 require (
 	github.com/ajstarks/svgo v0.0.0-20210923152817-c3b6e2f0c527 // indirect

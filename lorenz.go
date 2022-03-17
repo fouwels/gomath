@@ -1,46 +1,47 @@
 package main
 
-// import (
-// 	"log"
-// 	"math"
+import (
+	"math"
 
-// 	"gonum.org/v1/plot/plotter"
-// )
+	"gonum.org/v1/plot/plotter"
+)
 
-// func lorenz() error {
+func lorenz() error {
 
-// 	const time = 100
-// 	const step = 1
+	const time = 1000
+	const step = 0.01
 
-// 	points := []plotter.XYZ{}
+	points := []plotter.XYZ{}
 
-// 	x := float64(1)
-// 	y := float64(1)
-// 	z := float64(1)
+	x := float64(0.1)
+	y := float64(0)
+	z := float64(0)
 
-// 	for t := 0 * step; t <= time; t += step {
-// 		log.Printf("%v: %v %v %v", t, x, y, z)
+	for t := 0 * step; t <= time; t += step {
+		x, y, z = l(step, x, y, z)
 
-// 		x, y, z = l(step, x, y, z)
+		if !math.IsInf(x, 0) && !math.IsNaN(x) && !math.IsInf(y, 0) && !math.IsNaN(y) && !math.IsInf(z, 0) && !math.IsNaN(z) {
+			points = append(points, plotter.XYZ{
+				X: x,
+				Y: y,
+				Z: z,
+			})
+			continue
+		}
+	}
 
-// 		if !math.IsInf(x, 0) && !math.IsNaN(x) && !math.IsInf(y, 0) && !math.IsNaN(y) && !math.IsInf(z, 0) && !math.IsNaN(z) {
-// 			points = append(points, plotter.XYZ{x, y, z})
-// 			continue
-// 		}
-// 	}
+	return p3(points, "lorenz", "x", "y", "z")
+}
 
-// 	return p3(points, "lorenz", "x", "y", "z")
-// }
+func l(t, x, y, z float64) (float64, float64, float64) {
 
-// func l(t, x, y, z float64) (dx, dy, dz float64) {
+	const q = 10.0
+	const p = 28.0
+	const B = 8.0 / 3.0
 
-// 	const q = 10
-// 	const p = 28
-// 	const B = 8 / 3
+	dx := t * (q * (y - x))
+	dy := t * (x*(p-z) - y)
+	dz := t * (x*y - B*z)
 
-// 	dx = t * (q * (y - x))
-// 	dy = t * (x*(p-z) - y)
-// 	dz = t * (z*y - B*z)
-
-// 	return
-// }
+	return x + dx, y + dy, z + dz
+}
