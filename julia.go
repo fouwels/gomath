@@ -5,17 +5,17 @@ import (
 )
 
 func julia() error {
+
+	const cx = float64(0.6)
+	const ci = float64(0.156)
+	const res = 100
+
+	c := complex(cx, ci)
 	points := []XY{}
 
 	f := func(x complex128, c complex128) complex128 {
 		return x*x + c
 	}
-
-	cx := float64(0.8)
-	ci := float64(0.156)
-	c := complex(cx, ci)
-
-	res := 100
 
 	for x := -1 * res; x <= 1*res; x++ {
 		for xi := -1 * res; xi <= 1*res; xi++ {

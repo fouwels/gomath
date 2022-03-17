@@ -6,13 +6,13 @@ import (
 
 func mandlebrot() error {
 
+	const res = 100
+
 	points := []XY{}
 
 	f := func(x complex128, c complex128) complex128 {
 		return x*x + c
 	}
-
-	res := 100
 
 	for cx := -1 * res; cx <= 1*res; cx++ {
 		for ci := -1 * res; ci <= 1*res; ci++ {

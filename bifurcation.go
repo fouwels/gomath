@@ -2,15 +2,16 @@ package main
 
 func bifurcation() error {
 
-	points := []XY{}
+	const res = 100
+	const rmax = 4
 
-	res := 100
+	points := []XY{}
 
 	f := func(x complex128, r complex128) complex128 {
 		return r * x * (1 - x)
 	}
 
-	for ri := 0; ri <= 4*res; ri++ {
+	for ri := 0; ri <= rmax*res; ri++ {
 
 		r := complex(float64(ri)/float64(res), 0)
 		x := complex(0.1, 0)
