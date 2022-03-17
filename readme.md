@@ -1,9 +1,9 @@
-experiments in plotting with go, in place of matlab/octave/julia/...
+Experiments in plotting with go, in place of matlab/octave/julia/...
 
-implementations for:
+Includes written go implementations for:
 - mandlebrot sets
 - julia sets
 - bifurcation traces
 - lorenz attractors
 
-see `makefile` to run individual tests
+See `makefile` to run individual plots/functions
